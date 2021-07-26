@@ -1,0 +1,12 @@
+{
+    "imap_server":"imap.domain.com",
+    "username":"mail@domain.com",
+    "password":"12345678",
+    "printer":"printer123",
+    "folder_path":"/tmp",
+    "filter":
+    [
+        "OR (HEADER FROM domain) (HEADER FROM user)",
+        "UNSEEN"
+    ]
+}
