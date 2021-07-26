@@ -1,9 +1,9 @@
-import click
+import click, subprocess
 
 def file_print(filePath, printer):
     print('lp / -d ' + printer + ' / ' + "'" + filePath + "'")
-    # subprocess.run(["lpr", "-P " + printer, filePath])
-    # subprocess.run(["lp", "-d " + printer, filePath])
+    # subprocess.run(["lpr", "-P " + printer, filePath]) #check whitespace before usage
+    subprocess.run(["/usr/bin/lp", "-d" + printer, filePath])
     print('sent file to printer', printer)
 
 ### click section for cli interface

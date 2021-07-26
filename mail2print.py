@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 from imap_mail import ImapMail
 import file_print
-import json
+import json, os
+import urllib.request
 
-with open("config.json") as json_data_file:
+script_path = os.path.dirname(os.path.realpath(__file__))
+config_file_path = os.path.join(script_path, 'config.json')
+with open(config_file_path) as json_data_file:
     config = json.load(json_data_file)
 
 
@@ -22,3 +25,5 @@ for uid in msg_uids:
 for file_path in file_paths:
     if file_path is not None:
         file_print.file_print(file_path, config['printer'])
+        # for control purposes
+        urllib.request.urlopen(config['webhook'] + file_path)

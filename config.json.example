@@ -8,5 +8,6 @@
     [
         "OR (HEADER FROM domain) (HEADER FROM user)",
         "UNSEEN"
-    ]
+    ],
+    "webhook":"https://domain.com?msg=printing%20"
 }
