@@ -1,4 +1,5 @@
 import imaplib, re, email, os, datetime
+import logging_module as logger
 
 
 class ImapMail():
@@ -29,6 +30,7 @@ class ImapMail():
         msg_rfc822 = None
         _ret, msg_rfc822 = self.connection.fetch(message,'(RFC822)')
         if msg_rfc822 is None:
+            logger.logger.info(f"Error while trying to fetch RFC822 for message {message}")
             print("Error while trying to fetch RFC822 for message", message)
             self.close_connection()
             exit()
@@ -37,7 +39,8 @@ class ImapMail():
                 msg = email.message_from_bytes(response_part[1])
                 printString =''
                 for header in [ 'subject', 'to', 'from' ]:
-                    printString += header.upper() + ' ' + msg[header]
+                    printString += header.upper() + ' ' + msg[header] + ' ' 
+                logger.logger.info(printString)
                 print(printString)
 
         # get attachment filename
@@ -52,6 +55,7 @@ class ImapMail():
                 currentDT = datetime.datetime.now()
                 timeStamp = currentDT.strftime("%Y%m%d-%H%M%S")
                 filePath = os.path.join(download_folder, timeStamp + '_' + fileName)
+                logger.logger.info(f'saving attachment to {filePath}')
                 print('saving attachment to', filePath)
 
             if not os.path.isfile(filePath) :
@@ -73,6 +77,7 @@ class ImapMail():
         move message with uid to des_folder
         """
 
+        logger.logger.info(f'moving UID: {uid}')
         print('moving UID:', uid)
         result = self.connection.uid('MOVE', uid, dest_folder)
     
@@ -84,8 +89,10 @@ class ImapMail():
         emails = []
         result, messages = self.connection.search(None, *filter_from)
         if result == "OK":
+            logger.logger.info(f'Found {len(messages[0])} messages')
             print('Found', len(messages[0]), 'messages')
         else:
+            logger.logger.info(f"Error while searching with filter: {filter_from}")
             print("Error while searching with filter: ", filter_from)
             self.close_connection()
             exit()

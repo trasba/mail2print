@@ -4,11 +4,16 @@ mail2print is a Python project to load emails and print their attachments ona ph
 
 ## Prerequisites
 
-see requitements.txt
+see pyproject.toml
+
+## Installation
+
+use poetry
+``poetry install``
 
 ## Usage
 
-* adjust config.json
+- adjust config.json
 
   ```json
     {
@@ -31,11 +36,9 @@ e.g. the given example means, ```UNSEEN AND ((from domain) OR (from user))``` wh
 So john would match even though it is not part of the email address.
 filter is case-insensitive
 
-* run mail2print.py
+- run mail2print.py
 
-  ```bash
-  python mail2print.py
-  ```
+``poetry run mail2print``
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

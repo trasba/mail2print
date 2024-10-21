@@ -3,6 +3,10 @@ from imap_mail import ImapMail
 import file_print
 import json, os
 import urllib.request
+import logging_module as logger
+
+# Configure logging
+logger.logger.info(f'Start')
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 config_file_path = os.path.join(script_path, 'config.json')
@@ -24,6 +28,14 @@ for uid in msg_uids:
 # moving this explicitly to the end to avoid printing loops
 for file_path in file_paths:
     if file_path is not None:
+        logger.logger.info(f'printing file {file_path} on {config["printer"]}')
         file_print.file_print(file_path, config['printer'])
         # for control purposes
-        urllib.request.urlopen(config['webhook'] + file_path)
+        if config['webhook']:
+            logger.logger.info('triggering webhook')
+            urllib.request.urlopen(config['webhook'] + file_path)
+            
+def main():
+    pass
+
+logger.logger.info(f'Done')
